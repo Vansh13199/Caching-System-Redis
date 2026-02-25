@@ -200,9 +200,9 @@ std::string Server::process_command(const std::string& command_str) {
     else if (cmd == "GET") {
         if (args.size() != 2) return "-ERR wrong number of arguments for 'get' command";
         auto val = storage_.get(args[1]);
-        if (val) {
+        if (val.first) {
             // Bulk string reply
-            return "$" + std::to_string(val->length()) + "\r\n" + *val;
+            return "$" + std::to_string(val.second.length()) + "\r\n" + val.second;
         } else {
             return "$-1"; // Null reply
         }
